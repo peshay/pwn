@@ -46,7 +46,7 @@ for index, line in enumerate(wifi_data):
 	if searchObj:
 		print index, line
 		word = line.split()
-		wifi = [word[4],line[index + 1]]
+		wifi = [word[4],wifi_data[index + 1]]
 		led.clear()
 		led.message(wifi[1] + "\n" + wifi[0])
 		sleep(3)
