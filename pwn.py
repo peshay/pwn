@@ -46,7 +46,7 @@ for line in wifi_data:
 	if searchObj:
 		word = line.split()
 		nexthing = next(wifi_data).split('"')
-		wifi = [word[4],nexthing[1]]
+		wifi = [nexthing[1],word[4]]
 		led.clear()
 		led.message(wifi[0] + "\n" + wifi[1])
 		sleep(3)
