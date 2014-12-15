@@ -36,19 +36,19 @@ led.message("Search for  WiFis")
 sleep(3)
 
 # check for WiFis nearby
-wifi_out = subprocess.Popen(["iwlist", wif , "scan"],stdout=subprocess.PIPE)
+# check for WiFis nearby
+wifi_out = subprocess.Popen(["iwlist", wif, "scan"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
-print wifi_data
 
 # go through the list to display them
-for index, line in enumerate(wifi_data):
+for line in wifi_data:
 	searchObj = re.search( r'.* Cell [0-9][0-9] - Address: .*', line, re.M|re.I)
 	if searchObj:
-		print index, line
 		word = line.split()
-		wifi = [word[4],wifi_data[index + 1]]
+		nexthing = next(wifi_data).split('"')
+		wifi = [word[4],nexthing[1]]
 		led.clear()
-		led.message(wifi[1] + "\n" + wifi[0])
+		led.message(wifi[0] + "\n" + wifi[1])
 		sleep(3)
 
 
