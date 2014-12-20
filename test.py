@@ -35,18 +35,35 @@ wif = "wlan0"
 # check for WiFis nearby
 wifi_out = subprocess.Popen(["cat", "iwlist"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
-
+wifi = []
 # go through the list to display them
-n = 0 
+i = 0 	# pointer
 for line in wifi_data:
 	searchObj = re.search( r'.* Cell [0-9][0-9] - Address: .*', line, re.M|re.I)
 	if searchObj:
 		word = line.split()
 		nexthing = next(wifi_data).split('"')
-		wifi = [word[4],nexthing[1]]
-		print wifi[1] + "\n" + wifi[0]
-		#led.clear()
-		#led.message(wifi[1] + "\n" + wifi[0])
+		wifi.append((word[4],nexthing[1]))
+### button example code
+# Poll buttons, display message & set backlight accordingly
+#btn = ((lcd.LEFT  , 'Red Red Wine'              , lcd.RED),
+#       (lcd.UP    , 'Sita sings\nthe blues'     , lcd.BLUE),
+#       (lcd.DOWN  , 'I see fields\nof green'    , lcd.GREEN),
+#       (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
+#       (lcd.SELECT, ''                          , lcd.ON))
+#prev = -1
+#while True:
+#    for b in btn:
+#        if lcd.buttonPressed(b[0]):
+#            if b is not prev:
+#                lcd.clear()
+#                lcd.message(b[1])
+#                lcd.backlight(b[2])
+#                prev = b
+#            break
+i = 0 	# pointer
+print len(wifi)
+print wifi[0][1]
 
 
 

@@ -36,7 +36,6 @@ led.message("Search for  WiFis")
 sleep(3)
 
 # check for WiFis nearby
-# check for WiFis nearby
 wifi_out = subprocess.Popen(["iwlist", wif, "scan"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
 
@@ -51,7 +50,10 @@ for line in wifi_data:
 		led.message(wifi[0] + "\n" + wifi[1])
 		sleep(3)
 
-
+#next=led.RIGHT
+#prev=led.LEFT
+#select=led.SELECT
+#led.buttonPressed(next)
 
 lcd.display()
 
