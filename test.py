@@ -4,6 +4,7 @@ import subprocess
 import re
 from time import sleep
 
+
 # set wifi interface
 wif = "wlan0"
 
@@ -37,7 +38,6 @@ wifi_out = subprocess.Popen(["cat", "iwlist"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
 wifi = []
 # go through the list to display them
-i = 0 	# pointer
 for line in wifi_data:
 	searchObj = re.search( r'.* Cell [0-9][0-9] - Address: .*', line, re.M|re.I)
 	if searchObj:
@@ -51,19 +51,25 @@ for line in wifi_data:
 #       (lcd.DOWN  , 'I see fields\nof green'    , lcd.GREEN),
 #       (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
 #       (lcd.SELECT, ''                          , lcd.ON))
-#prev = -1
-#while True:
-#    for b in btn:
-#        if lcd.buttonPressed(b[0]):
-#            if b is not prev:
-#                lcd.clear()
-#                lcd.message(b[1])
-#                lcd.backlight(b[2])
-#                prev = b
-#            break
-i = 0 	# pointer
-print len(wifi)
-print wifi[0][1]
+ptr = 0
+while True:
+        if lcd.buttonPressed(lcd.RIGHT):
+            ptr = ptr + 1
+            if ptr > len(wifi):
+            	ptr = 0
+            lcd.clear()
+            lcd.message(wifi[ptr][0] + "\n" + wifi[ptr][1])
+
+        if lcd.buttonPressed(lcd.LEFT):
+        	if ptr == 0:
+        		ptr = len(wifi)
+        if lcd.buttonPressed(lcd.SELECT):
+        	print 'Go For It!' 
+        	break
+        	
+print "hack " + wifi[ptr][1]
+
+
 
 
 

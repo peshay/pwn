@@ -38,22 +38,32 @@ sleep(3)
 # check for WiFis nearby
 wifi_out = subprocess.Popen(["iwlist", wif, "scan"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
-
+wifi = []
 # go through the list to display them
 for line in wifi_data:
 	searchObj = re.search( r'.* Cell [0-9][0-9] - Address: .*', line, re.M|re.I)
 	if searchObj:
 		word = line.split()
 		nexthing = next(wifi_data).split('"')
-		wifi = [nexthing[1],word[4]]
-		led.clear()
-		led.message(wifi[0] + "\n" + wifi[1])
-		sleep(3)
+		wifi.append((word[4],nexthing[1]))
 
-#next=led.RIGHT
-#prev=led.LEFT
-#select=led.SELECT
-#led.buttonPressed(next)
+ptr = 0
+while True:
+        if lcd.buttonPressed(lcd.RIGHT):
+            ptr = ptr + 1
+            if ptr > len(wifi):
+            	ptr = 0
+            lcd.clear()
+            lcd.message(wifi[ptr][0] + "\n" + wifi[ptr][1])
+
+        if lcd.buttonPressed(lcd.LEFT):
+        	if ptr == 0:
+        		ptr = len(wifi)
+        if lcd.buttonPressed(lcd.SELECT):
+        	print 'Go For It!' 
+        	break
+        	
+print "hack " + wifi[ptr][1]
 
 lcd.display()
 
