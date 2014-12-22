@@ -50,21 +50,21 @@ for line in wifi_data:
 i = 0
 lcd.clear()
 lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
-while True:
-	if (led.buttonPressed(led.RIGHT)):
-		i += 1
-		if i > len(wifi):
-			i = 0
-		lcd.clear()
-		lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
-	if (led.buttonPressed(led.LEFT)):
-		if i == 0:
-			i = len(wifi)
-    	lcd.clear()
-		lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
-    if (led.buttonPressed(led.SELECT)):
-		print 'Go For It!' 
-		break
+while 1:
+    if (led.buttonPressed(led.RIGHT)):
+        i += 1
+        if i > len(wifi):
+            i = 0
+        lcd.clear()
+        lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+    elif (led.buttonPressed(led.LEFT)):
+        if i == 0:
+            i = len(wifi)
+        lcd.clear()
+        lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+    elif (led.buttonPressed(led.SELECT)):
+        print 'Go For It!' 
+        break
         	
 print "hack " + wifi[i][1]
 
