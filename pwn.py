@@ -47,23 +47,26 @@ for line in wifi_data:
 		nexthing = next(wifi_data).split('"')
 		wifi.append((word[4],nexthing[1]))
 
-ptr = 0
+i = 0
+lcd.clear()
+lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
 while True:
-        if (led.buttonPressed(led.RIGHT)):
-            ptr = ptr + 1
-            if ptr > len(wifi):
-            	ptr = 0
-            lcd.clear()
-            lcd.message(wifi[ptr][0] + "\n" + wifi[ptr][1])
-
-        if (led.buttonPressed(led.LEFT)):
-        	if ptr == 0:
-        		ptr = len(wifi)
-        if (led.buttonPressed(led.SELECT)):
-        	print 'Go For It!' 
-        	break
+	if (led.buttonPressed(led.RIGHT)):
+		i += 1
+		if i > len(wifi):
+			i = 0
+        lcd.clear()
+        lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+    if (led.buttonPressed(led.LEFT)):
+		if i == 0:
+			i = len(wifi)
+    	lcd.clear()
+	    lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+    if (led.buttonPressed(led.SELECT)):
+		print 'Go For It!' 
+		break
         	
-print "hack " + wifi[ptr][1]
+print "hack " + wifi[i][1]
 
 lcd.display()
 
