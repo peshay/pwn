@@ -61,7 +61,7 @@ while True:
 		if i == 0:
 			i = len(wifi)
     	lcd.clear()
-	    lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+		lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
     if (led.buttonPressed(led.SELECT)):
 		print 'Go For It!' 
 		break
