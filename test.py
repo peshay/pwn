@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import Tkinter as tk
 import subprocess
 import re
 from time import sleep
@@ -51,23 +51,21 @@ for line in wifi_data:
 #       (lcd.DOWN  , 'I see fields\nof green'    , lcd.GREEN),
 #       (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
 #       (lcd.SELECT, ''                          , lcd.ON))
-ptr = 0
+i = 0
 while True:
-        if lcd.buttonPressed(lcd.RIGHT):
-            ptr = ptr + 1
-            if ptr > len(wifi):
-            	ptr = 0
-            lcd.clear()
-            lcd.message(wifi[ptr][0] + "\n" + wifi[ptr][1])
-
-        if lcd.buttonPressed(lcd.LEFT):
-        	if ptr == 0:
-        		ptr = len(wifi)
-        if lcd.buttonPressed(lcd.SELECT):
-        	print 'Go For It!' 
-        	break
+	if event.keysym == 'Right':
+		i += 1
+		if i > len(wifi):
+			i = 0
+		print wifi[i][0] + "\n" + wifi[i][1] + "\n"
+	if event.keysym == 'Left':
+		if i == 0:
+			i = len(wifi)
+	if event.keysym == 'Enter':
+		print 'Go For It!' 
+		break
         	
-print "hack " + wifi[ptr][1]
+print "hack " + wifi[i][1]
 
 
 

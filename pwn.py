@@ -49,17 +49,17 @@ for line in wifi_data:
 
 ptr = 0
 while True:
-        if lcd.buttonPressed(lcd.RIGHT):
+        if (led.buttonPressed(lcd.RIGHT)):
             ptr = ptr + 1
             if ptr > len(wifi):
             	ptr = 0
             lcd.clear()
             lcd.message(wifi[ptr][0] + "\n" + wifi[ptr][1])
 
-        if lcd.buttonPressed(lcd.LEFT):
+        if (led.buttonPressed(lcd.LEFT)):
         	if ptr == 0:
         		ptr = len(wifi)
-        if lcd.buttonPressed(lcd.SELECT):
+        if (led.buttonPressed(lcd.SELECT)):
         	print 'Go For It!' 
         	break
         	
