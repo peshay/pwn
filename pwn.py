@@ -55,9 +55,9 @@ while True:
 		i += 1
 		if i > len(wifi):
 			i = 0
-        lcd.clear()
-        lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
-    if (led.buttonPressed(led.LEFT)):
+		lcd.clear()
+		lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+	if (led.buttonPressed(led.LEFT)):
 		if i == 0:
 			i = len(wifi)
     	lcd.clear()
