@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#! /usr/bin/env python
 
 import subprocess
 import re
 from time import sleep
 import Adafruit_CharLCD as LCD
 
-# Initialize the LCD using the pins 
+# Initialize the LCD using the pins
 lcd = LCD.Adafruit_CharLCDPlate()
 
 # set wifi interface
@@ -35,14 +35,14 @@ j = len(wifi) - 1
 lcd.clear()
 
 lcd.set_color(0.0, 0.0, 1.0)
-lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+lcd.message(wifi[i][0] + "\n" + wifi[i][1])
 while 1:
     if (lcd.is_pressed(LCD.RIGHT)):
         lcd.clear()
         i += 1
         if i > j:
             i = 0
-        lcd.message(wifi[i][0] + "\n" + wifi[i][1])	
+        lcd.message(wifi[i][0] + "\n" + wifi[i][1])
         sleep(0.5)
     elif (lcd.is_pressed(LCD.LEFT)):
         lcd.clear()
@@ -53,10 +53,10 @@ while 1:
         sleep(0.5)
     elif (lcd.is_pressed(LCD.SELECT)):
         lcd.clear()
-        print 'Go For It!' 
+        print 'Go For It!'
         break
-    
-        	
+
+
 print "hack " + wifi[i][1] + "\t" + wifi[i][1]
 
 lcd.set_backlight(0)
