@@ -14,21 +14,21 @@ def menuSwitcher ( menuItems ):
     indexEnd = len(menuItems) - 1
     lcd.clear()
     # show first entry
-    lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+    lcd.message(str(indexCounter) + ". " +  menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
     while True:
         if (lcd.is_pressed(LCD.RIGHT)):
             lcd.clear()
             indexCounter += 1
             if indexCounter > indexEnd:
                 indexCounter = 0
-            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])	
+            lcd.message(str(indexCounter) + ". " +  menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])	
             sleep(0.5)
         elif (lcd.is_pressed(LCD.LEFT)):
             lcd.clear()
             indexCounter -= 1
             if indexCounter == 0:
                 indexCounter = indexEnd
-            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+            lcd.message(str(indexCounter) + ". " +  menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
             sleep(0.5)
         elif (lcd.is_pressed(LCD.SELECT)):
             lcd.clear()
@@ -55,10 +55,12 @@ for line in wifi_data:
 	if searchObj:
 		word = line.split()
 		nexthing = next(wifi_data).split('"')
-		wifi.append((word[4],nexthing[1]))
+		wifi.append((nexthing[1],word[4]))
 sleep(1)
 
-menuSwitcher(wifi)
+wifitoHack = menuSwitcher(wifi)
+print wifitoHack[0]
+print wifitoHack[1]
         	
 
 lcd.set_backlight(0)
