@@ -1,12 +1,40 @@
-#! /usr/bin/env python
+#!/usr/bin/python
 
 import subprocess
 import re
 from time import sleep
 import Adafruit_CharLCD as LCD
 
-# Initialize the LCD using the pins
+# Initialize the LCD using the pins 
 lcd = LCD.Adafruit_CharLCDPlate()
+
+# function to switch through menu items on LCD
+def menuSwitcher ( menuItems ):
+    indexCounter = 0
+    indexEnd = len(menuItems) - 1
+    lcd.clear()
+    # show first entry
+    lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+    while True:
+        if (lcd.is_pressed(LCD.RIGHT)):
+            lcd.clear()
+            indexCounter += 1
+            if indexCounter > indexEnd:
+                indexCounter = 0
+            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])	
+            sleep(0.5)
+        elif (lcd.is_pressed(LCD.LEFT)):
+            lcd.clear()
+            indexCounter -= 1
+            if indexCounter == 0:
+                indexCounter = indexEnd
+            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+            sleep(0.5)
+        elif (lcd.is_pressed(LCD.SELECT)):
+            lcd.clear()
+            break
+    return menuItems[indexCounter][0], menuItems[indexCounter][1]
+        
 
 # set wifi interface
 wif = "wlan0"
@@ -30,33 +58,7 @@ for line in wifi_data:
 		wifi.append((word[4],nexthing[1]))
 sleep(1)
 
-i = 0
-j = len(wifi) - 1
-lcd.clear()
-
-lcd.set_color(0.0, 0.0, 1.0)
-lcd.message(wifi[i][0] + "\n" + wifi[i][1])
-while 1:
-    if (lcd.is_pressed(LCD.RIGHT)):
-        lcd.clear()
-        i += 1
-        if i > j:
-            i = 0
-        lcd.message(wifi[i][0] + "\n" + wifi[i][1])
-        sleep(0.5)
-    elif (lcd.is_pressed(LCD.LEFT)):
-        lcd.clear()
-        i -= 1
-        if i == 0:
-            i = j
-        lcd.message(wifi[i][0] + "\n" + wifi[i][1])
-        sleep(0.5)
-    elif (lcd.is_pressed(LCD.SELECT)):
-        lcd.clear()
-        print 'Go For It!'
-        break
-
-
-print "hack " + wifi[i][1] + "\t" + wifi[i][1]
+menuSwitcher(wifi)
+        	
 
 lcd.set_backlight(0)

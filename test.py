@@ -1,40 +1,52 @@
 #!/usr/bin/python
-import Tkinter as tk
+
 import subprocess
 import re
 from time import sleep
+import Adafruit_CharLCD as LCD
 
+# Initialize the LCD using the pins 
+lcd = LCD.Adafruit_CharLCDPlate()
+
+# function to switch through menu items on LCD
+def menuSwitcher ( menuItems ):
+    indexCounter = 0
+    indexEnd = len(menuItems) - 1
+    lcd.clear()
+    # show first entry
+    lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+    while True:
+        if (lcd.is_pressed(LCD.RIGHT)):
+            lcd.clear()
+            indexCounter += 1
+            if indexCounter > indexEnd:
+                indexCounter = 0
+            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])	
+            sleep(0.5)
+        elif (lcd.is_pressed(LCD.LEFT)):
+            lcd.clear()
+            indexCounter -= 1
+            if indexCounter == 0:
+                indexCounter = indexEnd
+            lcd.message(menuItems[indexCounter][0] + "\n" + menuItems[indexCounter][1])
+            sleep(0.5)
+        elif (lcd.is_pressed(LCD.SELECT)):
+            lcd.clear()
+            break
+    return menuItems[indexCounter][0], menuItems[indexCounter][1]
+        
 
 # set wifi interface
 wif = "wlan0"
 
-# Initiate CharLCDPlate
-#led = Adafruit_CharLCDPlate()
-# clear screen
-#led.clear()
-# turn LED off
-#led.backlight(led.OFF)
-
-# Initiate Display
-#bus = 1         # Note you need to change the bus number to 0 if running on a revision 1 Raspberry Pi.
-#address = 0x20  # I2C address of the MCP230xx chip.
-#gpio_count = 8  # Number of GPIOs exposed by the MCP230xx chip, should be 8 or 16 depending on chip.
-#mcp = MCP230XX_GPIO(bus, address, gpio_count)
-
-# Initialize the LCD plate.  Should auto-detect correct I2C bus.  If not,
-# pass '0' for early 256 MB Model B boards or '1' for all later versions
-#lcd = Adafruit_CharLCD(pin_rs=1, pin_e=2, pins_db=[3,4,5,6], GPIO=mcp)
-
-# turn lcd off
-#lcd.display()
-
 # turn lcd back on
-#lcd.noDisplay()
-#led.message("Search for  WiFis")
-#sleep(3)
+lcd.message("Search for  WiFis")
+lcd.enable_display(True)
+lcd.set_backlight(1)
 
 # check for WiFis nearby
-wifi_out = subprocess.Popen(["cat", "iwlist"],stdout=subprocess.PIPE)
+wifi_out = subprocess.Popen(["iwlist", wif, "scan"],stdout=subprocess.PIPE)
+# wifi_out = subprocess.Popen(["cat", "iwlist"],stdout=subprocess.PIPE)
 wifi_data = iter(wifi_out.stdout.readline,'')
 wifi = []
 # go through the list to display them
@@ -44,32 +56,9 @@ for line in wifi_data:
 		word = line.split()
 		nexthing = next(wifi_data).split('"')
 		wifi.append((word[4],nexthing[1]))
-### button example code
-# Poll buttons, display message & set backlight accordingly
-#btn = ((lcd.LEFT  , 'Red Red Wine'              , lcd.RED),
-#       (lcd.UP    , 'Sita sings\nthe blues'     , lcd.BLUE),
-#       (lcd.DOWN  , 'I see fields\nof green'    , lcd.GREEN),
-#       (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
-#       (lcd.SELECT, ''                          , lcd.ON))
-i = 0
-while True:
-	if event.keysym == 'Right':
-		i += 1
-		if i > len(wifi):
-			i = 0
-		print wifi[i][0] + "\n" + wifi[i][1] + "\n"
-	if event.keysym == 'Left':
-		if i == 0:
-			i = len(wifi)
-	if event.keysym == 'Enter':
-		print 'Go For It!' 
-		break
+sleep(1)
+
+menuSwitcher(wifi)
         	
-print "hack " + wifi[i][1]
 
-
-
-
-
-#lcd.display()
-
+lcd.set_backlight(0)
