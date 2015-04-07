@@ -64,3 +64,4 @@ print wifitoHack[1]
         	
 
 lcd.set_backlight(0)
+lcd.backlight(lcd.OFF)
